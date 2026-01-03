@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Portfolio</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    .orbitron {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Animated gradient background */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animated-bg {
+      background: linear-gradient(-45deg, #0a0e27, #1a1f3a, #2d1b4e, #1a1f3a);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+
+    /* Glitch effect */
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    .glitch:hover {
+      animation: glitch 0.3s infinite;
+    }
+
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Slide in animations */
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 0.8s ease-out forwards;
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s ease-out forwards;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    /* Stagger delays */
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+    .delay-4 { animation-delay: 0.4s; opacity: 0; }
+    .delay-5 { animation-delay: 0.5s; opacity: 0; }
+
+    /* Neon glow effect */
+    .neon-glow {
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+    }
+
+    .neon-border {
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), inset 0 0 15px rgba(0, 255, 255, 0.2);
+    }
+
+    /* Skill bar animation */
+    @keyframes fillBar {
+      from { width: 0%; }
+      to { width: var(--skill-width); }
+    }
+
+    .skill-bar {
+      animation: fillBar 1.5s ease-out forwards;
+    }
+
+    /* Card hover effect */
+    .project-card {
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+    }
+
+    /* Typing cursor effect */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .cursor {
+      animation: blink 1s infinite;
+    }
+
+    /* Particle effect */
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00ffff;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0e27;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #00ffff;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00cccc;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full animated-bg text-white">
+  <div id="app" class="w-full h-full overflow-auto"><!-- Navigation -->
+   <nav class="fixed top-0 w-full z-50 backdrop-blur-md bg-opacity-30" style="background-color: rgba(10, 14, 39, 0.7);">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+     <div class="flex justify-between items-center">
+      <div class="orbitron text-2xl font-bold neon-glow cursor-pointer glitch" id="nav-logo">
+       PORTFOLIO
+      </div>
+      <div class="flex gap-8"><a href="#about" class="hover:text-cyan-400 transition-colors">About</a> <a href="#skills" class="hover:text-cyan-400 transition-colors">Skills</a> <a href="#projects" class="hover:text-cyan-400 transition-colors">Projects</a> <a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+      </div>
+     </div>
+    </div>
+   </nav><!-- Hero Section -->
+   <section class="min-h-screen flex items-center justify-center px-6 pt-20">
+    <div class="max-w-5xl w-full text-center">
+     <div class="float">
+      <h1 id="hero-title" class="orbitron text-6xl md:text-8xl font-black mb-6 neon-glow slide-in-left">MANSHA PANDEY</h1>
+     </div>
+     <p id="hero-subtitle" class="text-2xl md:text-4xl mb-8 slide-in-right delay-2" style="color: #00ffff;">BSc Computer Science &amp; Data Analyst</p>
+     <p class="text-lg md:text-xl mb-12 slide-in-left delay-3" style="color: #a0a0a0;">Transforming Data into Insights | Building Digital Experiences</p><a href="#projects" class="inline-block px-8 py-4 neon-border rounded-lg orbitron font-bold hover:bg-cyan-400 hover:text-black transition-all fade-in-up delay-4" style="background-color: rgba(0, 255, 255, 0.1); color: #00ffff;"> VIEW MY WORK </a>
+    </div>
+   </section><!-- About Section -->
+   <section id="about" class="py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+     <h2 class="orbitron text-5xl font-bold mb-12 text-center neon-glow">ABOUT ME</h2>
+     <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="fade-in-up">
+       <div class="w-64 h-64 mx-auto rounded-full neon-border flex items-center justify-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <svg class="w-32 h-32" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+        </svg>
+       </div>
+      </div>
+      <div class="fade-in-up delay-2">
+       <p id="about-text" class="text-lg leading-relaxed mb-6" style="color: #d0d0d0;">Passionate BSc Computer Science and Data Analyst student with a strong foundation in programming, data analysis, and web development. I combine analytical thinking with creative problem-solving to build innovative solutions.</p>
+       <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 rounded-lg" style="background-color: rgba(0, 255, 255, 0.1);">
+         <div class="orbitron text-3xl font-bold" style="color: #00ffff;">
+          500+
+         </div>
+         <div class="text-sm" style="color: #a0a0a0;">
+          LeetCode Problems
+         </div>
+        </div>
+        <div class="p-4 rounded-lg" style="background-color: rgba(0, 255, 255, 0.1);">
+         <div class="orbitron text-3xl font-bold" style="color: #00ffff;">
+          10+
+         </div>
+         <div class="text-sm" style="color: #a0a0a0;">
+          Projects Completed
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Skills Section -->
+   <section id="skills" class="py-20 px-6" style="background-color: rgba(0, 0, 0, 0.3);">
+    <div class="max-w-6xl mx-auto">
+     <h2 class="orbitron text-5xl font-bold mb-12 text-center neon-glow">SKILLS &amp; EXPERTISE</h2>
+     <div class="grid md:grid-cols-2 gap-8 mb-12"><!-- Programming Languages -->
+      <div class="p-6 rounded-lg neon-border fade-in-up" style="background-color: rgba(10, 14, 39, 0.5);">
+       <h3 class="orbitron text-2xl font-bold mb-6" style="color: #00ffff;">Programming Languages</h3>
+       <div class="space-y-4">
+        <div>
+         <div class="flex justify-between mb-2"><span>Python</span> <span>90%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 90%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>JavaScript</span> <span>85%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 85%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>C#</span> <span>80%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 80%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>SQL</span> <span>85%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 85%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Web Development -->
+      <div class="p-6 rounded-lg neon-border fade-in-up delay-2" style="background-color: rgba(10, 14, 39, 0.5);">
+       <h3 class="orbitron text-2xl font-bold mb-6" style="color: #00ffff;">Web Development</h3>
+       <div class="space-y-4">
+        <div>
+         <div class="flex justify-between mb-2"><span>HTML/CSS</span> <span>95%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 95%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>React/Frontend</span> <span>80%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 80%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>Backend Development</span> <span>75%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 75%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>Responsive Design</span> <span>90%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 90%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Data Analysis -->
+      <div class="p-6 rounded-lg neon-border fade-in-up delay-3" style="background-color: rgba(10, 14, 39, 0.5);">
+       <h3 class="orbitron text-2xl font-bold mb-6" style="color: #00ffff;">Data Analysis</h3>
+       <div class="space-y-4">
+        <div>
+         <div class="flex justify-between mb-2"><span>Pandas/NumPy</span> <span>88%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 88%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>Data Visualization</span> <span>85%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 85%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>Statistical Analysis</span> <span>82%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 82%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+        <div>
+         <div class="flex justify-between mb-2"><span>Machine Learning</span> <span>75%</span>
+         </div>
+         <div class="h-3 rounded-full" style="background-color: rgba(255, 255, 255, 0.1);">
+          <div class="skill-bar h-full rounded-full" style="--skill-width: 75%; background: linear-gradient(90deg, #00ffff, #00cccc);"></div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Tools & Technologies -->
+      <div class="p-6 rounded-lg neon-border fade-in-up delay-4" style="background-color: rgba(10, 14, 39, 0.5);">
+       <h3 class="orbitron text-2xl font-bold mb-6" style="color: #00ffff;">Tools &amp; Technologies</h3>
+       <div class="flex flex-wrap gap-3"><span class="px-4 py-2 rounded-full text-sm" style="background-color: rgba(0, 255, 255, 0.2); color: #00ffff;">Git/GitHub</span> <span class="px-4 py-2 rounded-full text-sm" style="background-color: rgba(0, 255, 255, 0.2); color: #00ffff;">Android Studio</span> <span class="px-4 py-2 rounded-full text-sm" style="background-color: rgba(0, 255, 255, 0.2); color: #00ffff;">VS Code</span> <span class="px-4 py-2 rounded-full text-sm" style="background-color: rgba(0, 255, 255, 0.2); color: #00ffff;">Jupyter</span> <span class="px-4 py-2 rounded-full text-sm" style="background-color: rgba(0, 255, 255, 0.2); color: #00ffff;">MySQL</span> <span class="px-4 py-2 rounded-full text-sm" style="background-color: rgba(0, 255, 255, 0.2); color: #00ffff;">MongoDB</span> <span class="px-4 py-2 rounded-full text-sm" style="background-color: rgba(0, 255, 255, 0.2); color: #00ffff;">Docker</span> <span class="px-4 py-2 rounded-full text-sm" style="background-color: rgba(0, 255, 255, 0.2); color: #00ffff;">REST APIs</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Projects Section -->
+   <section id="projects" class="py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+     <h2 class="orbitron text-5xl font-bold mb-12 text-center neon-glow">FEATURED PROJECTS</h2>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- MediConnect -->
+      <div class="project-card p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.7);">
+       <div class="w-full h-48 rounded-lg mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <svg class="w-20 h-20" fill="currentColor" viewbox="0 0 20 20"><path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+        </svg>
+       </div>
+       <h3 class="orbitron text-xl font-bold mb-2" style="color: #00ffff;">MediConnect</h3>
+       <p class="text-sm mb-4" style="color: #a0a0a0;">Healthcare platform connecting patients with medical professionals. Features appointment booking, medical records, and telemedicine capabilities.</p>
+       <div class="flex flex-wrap gap-2"><span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">HTML/CSS</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">JavaScript</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">Backend</span>
+       </div>
+      </div><!-- Health App -->
+      <div class="project-card p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.7);">
+       <div class="w-full h-48 rounded-lg mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <svg class="w-20 h-20" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+        </svg>
+       </div>
+       <h3 class="orbitron text-xl font-bold mb-2" style="color: #00ffff;">Health Tracker App</h3>
+       <p class="text-sm mb-4" style="color: #a0a0a0;">Android application for tracking fitness goals, nutrition, and wellness metrics. Built as capstone project in first year using Android Studio.</p>
+       <div class="flex flex-wrap gap-2"><span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">Android Studio</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">Java</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">SQLite</span>
+       </div>
+      </div><!-- E-Commerce Platform -->
+      <div class="project-card p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.7);">
+       <div class="w-full h-48 rounded-lg mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <svg class="w-20 h-20" fill="currentColor" viewbox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+        </svg>
+       </div>
+       <h3 class="orbitron text-xl font-bold mb-2" style="color: #00ffff;">E-Commerce Platform</h3>
+       <p class="text-sm mb-4" style="color: #a0a0a0;">Full-featured online marketplace with product listings, shopping cart, payment integration, and premium seller accounts.</p>
+       <div class="flex flex-wrap gap-2"><span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">React</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">Node.js</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">MongoDB</span>
+       </div>
+      </div><!-- Army Website -->
+      <div class="project-card p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.7);">
+       <div class="w-full h-48 rounded-lg mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+        <svg class="w-20 h-20" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+       </div>
+       <h3 class="orbitron text-xl font-bold mb-2" style="color: #00ffff;">Military Portal</h3>
+       <p class="text-sm mb-4" style="color: #a0a0a0;">Secure information portal for military personnel with authentication, document management, and communication features.</p>
+       <div class="flex flex-wrap gap-2"><span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">HTML/CSS</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">PHP</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">MySQL</span>
+       </div>
+      </div><!-- Educational Platform -->
+      <div class="project-card p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.7);">
+       <div class="w-full h-48 rounded-lg mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+        <svg class="w-20 h-20" fill="currentColor" viewbox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+        </svg>
+       </div>
+       <h3 class="orbitron text-xl font-bold mb-2" style="color: #00ffff;">Educational Websites</h3>
+       <p class="text-sm mb-4" style="color: #a0a0a0;">Multiple learning platforms featuring course management, interactive lessons, quizzes, and student progress tracking.</p>
+       <div class="flex flex-wrap gap-2"><span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">JavaScript</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">CSS</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">APIs</span>
+       </div>
+      </div><!-- Data Analysis Projects -->
+      <div class="project-card p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.7);">
+       <div class="w-full h-48 rounded-lg mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+        <svg class="w-20 h-20" fill="currentColor" viewbox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+        </svg>
+       </div>
+       <h3 class="orbitron text-xl font-bold mb-2" style="color: #00ffff;">Data Analysis Projects</h3>
+       <p class="text-sm mb-4" style="color: #a0a0a0;">Various data analysis projects using Python, Pandas, and visualization libraries to extract insights from complex datasets.</p>
+       <div class="flex flex-wrap gap-2"><span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">Python</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">Pandas</span> <span class="text-xs px-2 py-1 rounded" style="background-color: rgba(0, 255, 255, 0.2);">Matplotlib</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Certifications Section -->
+   <section class="py-20 px-6" style="background-color: rgba(0, 0, 0, 0.3);">
+    <div class="max-w-6xl mx-auto">
+     <h2 class="orbitron text-5xl font-bold mb-12 text-center neon-glow">CERTIFICATIONS</h2>
+     <div class="grid md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-lg neon-border text-center" style="background-color: rgba(10, 14, 39, 0.5);">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background-color: rgba(0, 255, 255, 0.2);">
+        <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 20 20" style="color: #00ffff;"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+       </div>
+       <h3 class="orbitron font-bold mb-2" style="color: #00ffff;">Python for Data Science</h3>
+       <p class="text-sm" style="color: #a0a0a0;">Advanced certification in Python programming and data analysis</p>
+      </div>
+      <div class="p-6 rounded-lg neon-border text-center" style="background-color: rgba(10, 14, 39, 0.5);">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background-color: rgba(0, 255, 255, 0.2);">
+        <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 20 20" style="color: #00ffff;"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+       </div>
+       <h3 class="orbitron font-bold mb-2" style="color: #00ffff;">Web Development</h3>
+       <p class="text-sm" style="color: #a0a0a0;">Full-stack web development certification</p>
+      </div>
+      <div class="p-6 rounded-lg neon-border text-center" style="background-color: rgba(10, 14, 39, 0.5);">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background-color: rgba(0, 255, 255, 0.2);">
+        <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 20 20" style="color: #00ffff;"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+       </div>
+       <h3 class="orbitron font-bold mb-2" style="color: #00ffff;">Machine Learning</h3>
+       <p class="text-sm" style="color: #a0a0a0;">Introduction to ML algorithms and applications</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="orbitron text-5xl font-bold mb-12 text-center neon-glow">GET IN TOUCH</h2>
+     <div class="grid md:grid-cols-2 gap-8">
+      <div class="space-y-6">
+       <div class="p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.5);">
+        <div class="flex items-center gap-4">
+         <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: rgba(0, 255, 255, 0.2);">
+          <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20" style="color: #00ffff;"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /> <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+         </div>
+         <div>
+          <div class="text-sm" style="color: #a0a0a0;">
+           Email
+          </div>
+          <div id="contact-email" class="font-bold" style="color: #00ffff;">
+           manshabandhu@gmail.com
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.5);">
+        <div class="flex items-center gap-4">
+         <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: rgba(0, 255, 255, 0.2);">
+          <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20" style="color: #00ffff;"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+         </div>
+         <div>
+          <div class="text-sm" style="color: #a0a0a0;">
+           Phone
+          </div>
+          <div id="contact-phone" class="font-bold" style="color: #00ffff;">
+           +91 82940 79055
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.5);">
+        <div class="text-sm mb-3" style="color: #a0a0a0;">
+         Connect on Social Media
+        </div>
+        <div class="flex gap-4"><a href="https://www.linkedin.com/in/mansha-pandey/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-transform" style="background-color: rgba(0, 255, 255, 0.2);">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24" style="color: #00ffff;"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+          </svg></a> <a href="https://github.com/ChristianCodeSoul" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-transform" style="background-color: rgba(0, 255, 255, 0.2);">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24" style="color: #00ffff;"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          
+          </svg></a>
+        </div>
+       </div>
+      </div>
+      <div class="p-6 rounded-lg neon-border" style="background-color: rgba(10, 14, 39, 0.5);">
+       <h3 class="orbitron text-xl font-bold mb-4" style="color: #00ffff;">Send a Message</h3>
+       <p class="text-sm mb-4" style="color: #a0a0a0;">Fill out my Google Form to get in touch!</p><a id="google-form-btn" href="https://forms.gle/ivANvX1V3rUv5ZSu9" target="_blank" rel="noopener noreferrer" class="block w-full px-6 py-3 rounded-lg text-center orbitron font-bold hover:scale-105 transition-transform" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;"> OPEN CONTACT FORM </a>
+       <div class="mt-6 p-4 rounded-lg" style="background-color: rgba(0, 255, 255, 0.1);">
+        <div class="text-sm font-bold mb-2" style="color: #00ffff;">
+         Quick Stats
+        </div>
+        <div class="space-y-2 text-sm" style="color: #a0a0a0;">
+         <div class="flex justify-between"><span>Response Time:</span> <span class="font-bold" style="color: #00ffff;">10am - 7pm</span>
+         </div>
+         <div class="flex justify-between"><span>Availability:</span> <span class="font-bold" style="color: #00ffff;">Open to opportunities</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="py-8 px-6 text-center" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="max-w-6xl mx-auto">
+     <p class="orbitron text-sm" style="color: #a0a0a0;">© 2026 Tech Portfolio. Built with passion and code.</p>
+     <p class="text-xs mt-2" style="color: #666;">Thank you</p>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#0a0e27",
+      surface_color: "#1a1f3a",
+      text_color: "#ffffff",
+      accent_color: "#00ffff",
+      secondary_accent: "#764ba2",
+      font_family: "Space Mono",
+      font_size: 16,
+      hero_title: "YOUR NAME",
+      hero_subtitle: "BSc Computer Science & Data Analyst",
+      about_text: "Passionate BSc Computer Science and Data Analyst student with a strong foundation in programming, data analysis, and web development. I combine analytical thinking with creative problem-solving to build innovative solutions.",
+      contact_email: "your.email@example.com",
+      contact_phone: "+1 234 567 8900",
+      google_form_link: "https://forms.gle/your-form-link"
+    };
+
+    async function onConfigChange(config) {
+      const heroTitle = document.getElementById('hero-title');
+      const heroSubtitle = document.getElementById('hero-subtitle');
+      const aboutText = document.getElementById('about-text');
+      const contactEmail = document.getElementById('contact-email');
+      const contactPhone = document.getElementById('contact-phone');
+      const googleFormBtn = document.getElementById('google-form-btn');
+      const navLogo = document.getElementById('nav-logo');
+
+      if (heroTitle) heroTitle.textContent = config.hero_title || defaultConfig.hero_title;
+      if (heroSubtitle) heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      if (aboutText) aboutText.textContent = config.about_text || defaultConfig.about_text;
+      if (contactEmail) contactEmail.textContent = config.contact_email || defaultConfig.contact_email;
+      if (contactPhone) contactPhone.textContent = config.contact_phone || defaultConfig.contact_phone;
+      if (googleFormBtn) googleFormBtn.href = config.google_form_link || defaultConfig.google_form_link;
+
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'monospace, sans-serif';
+
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.body.style.fontSize = `${baseSize}px`;
+
+      const orbitronElements = document.querySelectorAll('.orbitron');
+      orbitronElements.forEach(el => {
+        el.style.fontFamily = `${customFont}, Orbitron, ${baseFontStack}`;
+      });
+
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const secondaryAccent = config.secondary_accent || defaultConfig.secondary_accent;
+
+      document.body.style.color = textColor;
+
+      const accentElements = document.querySelectorAll('[style*="#00ffff"]');
+      accentElements.forEach(el => {
+        const styleText = el.getAttribute('style');
+        if (styleText) {
+          el.setAttribute('style', styleText.replace(/#00ffff/g, accentColor));
+        }
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_accent || defaultConfig.secondary_accent,
+            set: (value) => {
+              config.secondary_accent = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_accent: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["hero_title", config.hero_title || defaultConfig.hero_title],
+        ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+        ["about_text", config.about_text || defaultConfig.about_text],
+        ["contact_email", config.contact_email || defaultConfig.contact_email],
+        ["contact_phone", config.contact_phone || defaultConfig.contact_phone],
+        ["google_form_link", config.google_form_link || defaultConfig.google_form_link]
+      ]);
+    }
+
+    async function init() {
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities,
+          mapToEditPanelValues
+        });
+      }
+
+      // Particle effect on mouse move
+      document.addEventListener('mousemove', (e) => {
+        if (Math.random() > 0.95) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.left = e.clientX + 'px';
+          particle.style.top = e.clientY + 'px';
+          document.body.appendChild(particle);
+          
+          setTimeout(() => {
+            particle.style.opacity = '0';
+            particle.style.transform = 'translateY(-20px)';
+            particle.style.transition = 'all 1s ease';
+          }, 10);
+          
+          setTimeout(() => particle.remove(), 1000);
+        }
+      });
+
+      // Smooth scroll for navigation
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b81a48a639d3b7f',t:'MTc2NzQzNDM1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
